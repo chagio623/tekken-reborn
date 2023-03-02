@@ -1,15 +1,17 @@
 package com.cpan252.tekkenreborn.repository;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
 
 import com.cpan252.tekkenreborn.model.Fighter;
+import com.cpan252.tekkenreborn.model.Fighter.Anime;
 
 //It will be an interface that defines operations with the fighter
 //table in the database
-public interface FighterRepository {
-    Iterable<Fighter> findAll();
+public interface FighterRepository extends CrudRepository<Fighter, Long> {
+    List<Fighter> findByAnimeFrom(Anime anime);
 
-    Optional<Fighter> findById(Long id);
-
-    void save(Fighter fighter);
+    List<Fighter> findByNameStartsWithAndCreatedAtBetween(String name, LocalDate startDate, LocalDate endDate);
 }
