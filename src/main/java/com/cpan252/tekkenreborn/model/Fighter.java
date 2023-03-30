@@ -3,6 +3,8 @@ package com.cpan252.tekkenreborn.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,6 +38,22 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 public class Fighter {
+    public enum Anime {
+        NARUTO("Naruto"), BLEACH("Bleach"), ONE_PIECE("One Piece"), TEKKEN("Tekken");
+
+        @JsonValue
+        @NotBlank
+        private String title;
+
+        private Anime(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
+
     // Using JPA, we have to provide correct @Id annotation and use @GeneratedValue
     // to auto-generate the id, see the imports
     @Id
@@ -50,22 +68,9 @@ public class Fighter {
     @DecimalMin(value = "0.1", inclusive = true)
     @DecimalMax(value = "10.0", inclusive = true)
     private BigDecimal resistance;
+
     private Anime animeFrom;
 
     @Builder.Default
     private LocalDate createdAt = LocalDate.now();
-
-    public enum Anime {
-        NARUTO("Naruto"), BLEACH("Bleach"), ONE_PIECE("One Piece"), TEKKEN("Tekken");
-
-        private String title;
-
-        private Anime(String title) {
-            this.title = title;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-    }
 }
